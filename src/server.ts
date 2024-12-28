@@ -1,22 +1,35 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from "cors";
+import errorHandler from './middlewares/errorHandling';
 
 const app = express();
 dotenv.config();
 
 const port = process.env.PORT  || 4000;
-
+const DB=process.env.DATABASE_URL || '';
 app.get('/', (req, res) => {
   res.send('Hello, TypeScript + Node.js + Express!');
 });
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/test');
+  await mongoose.connect(DB);
 console.log(`connected to mongodb`)
 }
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  errorHandler as (
+      err: any,
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ) => void
+  );
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
