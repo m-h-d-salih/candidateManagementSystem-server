@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import Admin from "../../../models/admin/adminSchema";
-import AppError from "../../../middlewares/AppError";
-import { hashPassword } from "../../../utils/bcrypt";
+import AppError from "../../middlewares/AppError";
+import Admin from "../../models/admin/adminSchema";
+import { hashPassword } from "../../utils/bcrypt";
+
 
 export const signup=async(req:Request,res:Response)=>{
     const {name,email,password}=req.body;
