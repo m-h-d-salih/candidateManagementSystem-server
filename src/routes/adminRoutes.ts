@@ -1,12 +1,13 @@
 import express from 'express';
 import { createValidator } from 'express-joi-validation'
-import { adminRegitserValidation } from '../middlewares/validation/admin/signupValidation';
+import { adminLoginValidation, adminRegitserValidation } from '../middlewares/validation/admin/authValidation';
 import { trycatch } from '../middlewares/tryCatch';
-import { signup } from '../controllers/admin/authController';
+import { login, signup } from '../controllers/admin/authController';
 
 const adminRouter=express.Router();
 const validator=createValidator({passError:true})
 
-adminRouter.post(`/admin/signup`,validator.body(adminRegitserValidation),trycatch(signup));
+adminRouter.post(`/signup`,validator.body(adminRegitserValidation),trycatch(signup));
+adminRouter.post(`/login`,validator.body(adminLoginValidation),trycatch(login));
 
 export default adminRouter;

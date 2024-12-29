@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 
- type params = (req: Request, res: Response, next: NextFunction) => Promise<void>;
+ type params = (req: Request, res: Response, next: NextFunction) => Promise<any>;
 
 export const trycatch = (controller: params): RequestHandler => {
   
