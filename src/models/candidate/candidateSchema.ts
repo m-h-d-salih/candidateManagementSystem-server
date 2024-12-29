@@ -14,23 +14,19 @@ const candidateSchema=new mongoose.Schema({
         required:true,
         type:String
     },
-    mobile:{
+    phone:{
         required:true,
         type:String
     },
     profileUrl:{
-        required:true,
+        
         type:String
     },
     resume:{
-        required:true,
+      
         type:String
     },
 
-    isBlocked:{
-        type:Boolean,
-        default:false
-    },
     createdAt:{
         type:Date
     },
