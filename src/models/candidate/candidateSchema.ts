@@ -18,6 +18,10 @@ const candidateSchema=new mongoose.Schema({
         required:true,
         type:String
     },
+    address:{
+        required:true,
+        type:String
+    },
     profileUrl:{
         
         type:String
@@ -30,6 +34,10 @@ const candidateSchema=new mongoose.Schema({
     createdAt:{
         type:Date
     },
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
 },
 {
     timestamps: true,

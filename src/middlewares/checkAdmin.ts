@@ -17,7 +17,6 @@ export const checkAdmin = async (req: Request, res: Response, next: NextFunction
     
     const decoded = jwt.verify(token, JWT_SECRET) as { _id: string };
     const { _id:id } = decoded;
-    console.log(`hii`+JSON.stringify(decoded))
         if (!id) {
             throw new AppError("Invalid token. Admin ID not found.", 401);
         }

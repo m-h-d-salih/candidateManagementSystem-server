@@ -10,9 +10,7 @@ dotenv.config();
 
 const port = process.env.PORT  || 4000;
 const DB=process.env.DATABASE_URL || '';
-// app.get('/', (req, res) => {
-//   res.send('Hello, TypeScript + Node.js + Express!');
-// });
+
 main().catch(err => console.log(err));
 
 async function main() {
