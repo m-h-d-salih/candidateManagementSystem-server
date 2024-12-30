@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken"
 import AppError from "../middlewares/AppError";
 
-const refreshTokens: string[] = [];
 export const generateToken = (userId: string): string => {
     if (!process.env.TOKEN_SECRET)
         throw new AppError('token secret is not defined in environmentel varibale')
