@@ -8,15 +8,15 @@ import { candidateCreateValidation } from '../middlewares/validation/admin/candi
 import checkAuth from '../middlewares/checkAuth';
 import { checkAdmin } from '../middlewares/checkAdmin';
 
-const adminRouter=express.Router();
+const router=express.Router();
 const validator=createValidator({passError:true})
 
-adminRouter.post(`/signup`,validator.body(adminRegitserValidation),trycatch(signup));
-adminRouter.post(`/login`,validator.body(adminLoginValidation),trycatch(login));
-adminRouter.post(`/candidate`,checkAuth,checkAdmin,validator.body(candidateCreateValidation),trycatch(createCandidate));
-adminRouter.get(`/candidates`,checkAuth,checkAdmin,trycatch(getAllCandidates));
-adminRouter.route(`/candidate/:id`)
+router.post(`/signup`,validator.body(adminRegitserValidation),trycatch(signup));
+router.post(`/login`,validator.body(adminLoginValidation),trycatch(login));
+router.post(`/candidate`,checkAuth,checkAdmin,validator.body(candidateCreateValidation),trycatch(createCandidate));
+router.get(`/candidates`,checkAuth,checkAdmin,trycatch(getAllCandidates));
+router.route(`/candidate/:id`)
 .get(checkAuth,checkAdmin,trycatch(getACandidate))
 .put(checkAuth,checkAdmin,trycatch(deleteCandidate));
 
-export default adminRouter;
+export default router;
