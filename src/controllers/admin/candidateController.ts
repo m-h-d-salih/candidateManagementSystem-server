@@ -25,18 +25,32 @@ export const getAllCandidates = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
-  const candidates = await Candidate.find()
+  const candidates = await Candidate.find({isDeleted:false})
   .skip(skip)      
   .limit(limit);
 
   if (candidates.length === 0) {
     throw new AppError("No candidates found", 404);
   }
-  const totalCandidates = await Candidate.countDocuments();
+  const totalCandidates = await Candidate.countDocuments({isDeleted:false});
   res.status(200).json({
     success: true,
     message: "Candidates retrieved successfully",
     data: {candidates,totalCandidates},
+  });
+};
+export const getACandidate = async (req: Request, res: Response) => {
+ const {id}=req.params;
+  if (!id) {
+    throw new AppError("please provide candidate id", 401);
+  }
+  const candidate=await Candidate.findById(id);
+  if(!candidate)
+    throw  new AppError(`candidate not found`,404)
+  res.status(200).json({
+    success: true,
+    message: "Candidates retrieved successfully",
+    data:candidate,
   });
 };
 
