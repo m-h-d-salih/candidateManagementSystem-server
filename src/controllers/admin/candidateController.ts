@@ -57,6 +57,8 @@ export const getACandidate = async (req: Request, res: Response) => {
 
 export const deleteCandidate = async (req: Request, res: Response) => {
 const { id } = req.params;
+if(!id)
+  throw new AppError(`please provide candidate id`,401)
 const deletedCandidate = await Candidate.findByIdAndUpdate(
   id,
   { isDeleted: true },
