@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import AppError from "../../middlewares/AppError";
 import Candidate from "../../models/candidate/candidateSchema";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { S3 } from "aws-sdk";
 interface Candidate{
   name: string;
     email: string;
@@ -29,18 +28,16 @@ export const uploadProfileImage=async(req:Request,res:Response)=>{
       throw new AppError('Candidate not found', 404);
     }
     if (candidate.profileUrl) {
-      // const s3 = new S3();
-      const oldImageKey = candidate.profileUrl.split('/').pop(); // Assuming profileUrl is a full S3 URL
+      const oldImageKey = candidate.profileUrl.split('/').pop(); 
       if (oldImageKey) {
         const deleteParams = {
-          Bucket: process.env.S3_BUCKET_NAME, // replace with your S3 bucket name
+          Bucket: process.env.S3_BUCKET_NAME, 
           Key: oldImageKey,
         };
         await s3Client.send(new DeleteObjectCommand(deleteParams));
       }
     }
     
-    // Update the candidate with the new profile image URL
     candidate.profileUrl = imageURL;
     await candidate.save();
     res.status(200).json({
@@ -62,18 +59,16 @@ export const uploadResume=async(req:Request,res:Response)=>{
       throw new AppError('Candidate not found', 404);
     }
     if (candidate.resume) {
-      // const s3 = new S3();
-      const oldResumeKey = candidate.resume.split('/').pop(); // Assuming profileUrl is a full S3 URL
+      const oldResumeKey = candidate.resume.split('/').pop();
       if (oldResumeKey) {
         const deleteParams = {
-          Bucket: process.env.S3_BUCKET_NAME, // replace with your S3 bucket name
+          Bucket: process.env.S3_BUCKET_NAME, 
           Key: oldResumeKey,
         };
         await s3Client.send(new DeleteObjectCommand(deleteParams));
       }
     }
     
-    // Update the candidate with the new profile image URL
     candidate.resume = resume;
     await candidate.save();
     res.status(200).json({

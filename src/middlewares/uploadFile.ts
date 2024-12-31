@@ -1,5 +1,5 @@
 import {  Request, Response } from 'express';
-import { S3, PutObjectCommand, DeleteObjectCommand, ObjectCannedACL } from '@aws-sdk/client-s3';
+import { S3 } from '@aws-sdk/client-s3';
 import multer, { FileFilterCallback } from 'multer';
 import multerS3 from "multer-s3";
 import path from "path";
@@ -14,9 +14,8 @@ const s3 = new S3({
   },
 });
 const s3Storage = multerS3({
-    s3: s3, // s3 instance
-    bucket: process.env.S3_BUCKET_NAME as string, // change it as per your project requirement
-    // acl: "public-read", // storage access type
+    s3: s3, 
+    bucket: process.env.S3_BUCKET_NAME as string, 
     metadata: (req, file, cb) => {
         cb(null, {fieldname: file.fieldname})
     },
@@ -31,29 +30,24 @@ function sanitizeFile(
   cb: FileFilterCallback
 ): void {
   
-  // Define the allowed extensions
   const fileExts = [".png", ".jpg", ".jpeg", ".gif", ".pdf"];
 
-  // Check allowed extensions
   const isAllowedExt = fileExts.includes(
     path.extname(file.originalname.toLowerCase())
   );
 
-  // Mime type must be an image
   const isAllowedMimeType = file.mimetype.startsWith("image/")|| file.mimetype === "application/pdf";
 
   if (isAllowedExt && isAllowedMimeType) {
-    return cb(null, true); // No errors
+    return cb(null, true);
   } else {
-    // Pass error message to callback
     cb(new Error("File type not allowed!"));
   }
 }
 
-// Middleware for image upload
 const uploadImage = multer({
 
-  storage: s3Storage, // Replace this with your actual storage configuration
+  storage: s3Storage, 
   fileFilter: (
     req: Request,
     file: Express.Multer.File,
@@ -62,7 +56,7 @@ const uploadImage = multer({
     sanitizeFile(file, callback);
   },
   limits: {
-    fileSize: 1024 * 1024 * 2, // 2MB file size limit
+    fileSize: 1024 * 1024 * 2,
   },
 });
 
