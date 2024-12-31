@@ -32,7 +32,7 @@ function sanitizeFile(
 ): void {
   
   // Define the allowed extensions
-  const fileExts = [".png", ".jpg", ".jpeg", ".gif"];
+  const fileExts = [".png", ".jpg", ".jpeg", ".gif", ".pdf"];
 
   // Check allowed extensions
   const isAllowedExt = fileExts.includes(
@@ -40,7 +40,7 @@ function sanitizeFile(
   );
 
   // Mime type must be an image
-  const isAllowedMimeType = file.mimetype.startsWith("image/");
+  const isAllowedMimeType = file.mimetype.startsWith("image/")|| file.mimetype === "application/pdf";
 
   if (isAllowedExt && isAllowedMimeType) {
     return cb(null, true); // No errors
