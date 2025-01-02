@@ -2,6 +2,8 @@ import  jwt  from "jsonwebtoken";
 import dotenv from "dotenv"
 import { NextFunction, Request, Response } from "express";
 import AppError from "./AppError";
+import { json } from "body-parser";
+
 dotenv.config();
 const checkAuth=async(req:Request,res:Response,next:NextFunction)=>{
    try{

@@ -16,9 +16,9 @@ interface Candidate{
 
 export const uploadProfileImage=async(req:Request,res:Response)=>{
   const {id}=req.params;
-    if (!req.file) {
-        throw new AppError('please provide image',401);
-      }
+  if (!req.file) {
+    throw new AppError('please provide image',401);
+  }
       const s3Client = new S3Client({ region: process.env.AWS_REGION });
     const file = req.file as Express.MulterS3.File;
     const imageURL = file.location;
@@ -72,7 +72,7 @@ export const uploadResume=async(req:Request,res:Response)=>{
     candidate.resume = resume;
     await candidate.save();
     res.status(200).json({
-      message: 'Profile image uploaded successfully',
+      message: 'resume uploaded successfully',
       data: candidate,
     });
 }

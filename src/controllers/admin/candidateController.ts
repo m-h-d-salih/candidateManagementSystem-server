@@ -22,12 +22,9 @@ res.status(201).json({
   });
 }
 export const getAllCandidates = async (req: Request, res: Response) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-  const skip = (page - 1) * limit;
+
   const candidates = await Candidate.find({isDeleted:false})
-  .skip(skip)      
-  .limit(limit);
+  
 
   if (candidates.length === 0) {
     throw new AppError("No candidates found", 404);
